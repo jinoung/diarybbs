@@ -37,6 +37,9 @@ def create():
 @bp.route('/update/<int:notice_id>/', methods=('GET', 'POST'))
 def update(notice_id):
     notice = Notice.query.get_or_404(notice_id)
+    if g.user != notice.user:
+        flash('수정권한이 없어요')
+        return redirect(url_for('notice.detail', notice_id=notice_id))
     if request.method == 'POST':
         form = NoticeForm()
         if form.validate_on_submit():

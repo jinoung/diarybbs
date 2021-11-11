@@ -19,8 +19,10 @@
             </div>
         </div>
     </div>
+    {% if g.user == data.user %}
     <a href="{{ url_for('notice.update', notice_id=data.id) }}" class="btn btn-success">수정</a> 
     <a href="{{ url_for('notice.delete', notice_id=data.id) }}" class="btn btn-success">삭제</a> 
+    {% endif %}
 </div>
 {% endblock %}
 {% block script %}

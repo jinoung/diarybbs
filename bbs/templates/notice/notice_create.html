@@ -10,7 +10,13 @@
   </h5>
   <form method="post" class="post-form my-3">
       {{ form.csrf_token }}
-      {% include "form_errors.html" %}
+      <!-- 필드오류 -->
+      {% for field, errors in form.errors.items() %}
+      <div class="alert alert-danger" role="alert">
+          <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+      </div>
+      {% endfor %}
+      <!-- flash 오류 -->
       <div class="form-group">
           <label for="subject">제목</label>
           <input type="text" class="form-control" name="subject" id="subject" value="{{ form.subject.data or '' }}">
