@@ -2,6 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from flask_simplemde import SimpleMDE
 from flaskext.markdown import Markdown
 
 #import config
@@ -19,6 +20,8 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__)
     app.config.from_envvar('APP_CONFIG_FILE')
+    app.config["SIMPLEMDE_JS_iife"] = True
+    app.config["SIMPLEMDE_USE_CDN"] = True
 
     # ORM
     db.init_app(app)
@@ -38,6 +41,8 @@ def create_app():
     from .filter import format_datetime
     app.jinja_env.filters['datetime'] = format_datetime
 
-    #마크다운
-    Markdown(app, extentions=['nl2br', 'fenced_code'])
+    # 마크다운 편집기능
+    SimpleMDE(app)
+    Markdown(app, extensions=['nl2br', 'fenced_code'])
+
     return app
